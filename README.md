@@ -4,6 +4,7 @@
 ---
 
 ## Final File Structure
+```text
 project
 ├── czid/
 ├── database/
@@ -31,11 +32,12 @@ project
 ├── taxonomy.py
 └── taxonomy.excel
 ```
-Each time the workflow is executed with a diferent database, it is necessary to transfer the `report`, `abundance` and `unclassified`.  
-```sh
-bash mv output/ epi2me/reports/_viral.tsv
-bash mv output/abundance_table_species.tsv epi2me/abundance_table_viral.tsv
-bash mv output/unclassified/*.fq.gz epi2me/unclassified/unclassified_viral
+Each time the workflow is executed with a diferent database, it is necessary to transfer the following documents: `wf-metagenomics-report.html`, `abundance_table_species.tsv` and the files from the folder `unclassified`, so that the files are not substitute by the next reports.  
+
+```sh bash
+mv output/wf-metagenomics-report.html epi2me/reports/_viral.html
+mv output/abundance_table_species.tsv epi2me/abundance_table_viral.tsv
+mv output/unclassified/*.fq.gz epi2me/unclassified/unclassified_viral
 ```
 
 
