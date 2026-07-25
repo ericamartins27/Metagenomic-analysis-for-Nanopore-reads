@@ -6,6 +6,7 @@
 ## 👥 Advisors
   - Prof.º Francisco P. Martins f.pina.martins@estbarreiro.ips.pt
   - Dr.ª Sofia G. Seabra sgseabra@ihmt.unl.pt
+  - Dr.º Ricardo Parreira
 ---
 
 
@@ -81,4 +82,4 @@ python taxonomy.py
 7. Run the R analysis that performs statistical analyses (alpha diversity, composition, indicator species and genus).
 
 ## 📜 License
-This project is licensed under the MIT License - see the [LICENSE] file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
