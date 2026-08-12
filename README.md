@@ -4,8 +4,8 @@
 ## 👤 Author 
   - Érica Martins             
 ## 👥 Advisors
-  - Prof.º Francisco P. Martins f.pina.martins@estbarreiro.ips.pt
-  - Dr.ª Sofia G. Seabra sgseabra@ihmt.unl.pt
+  - Prof.º Francisco Pina Martins
+  - Dr.ª Sofia Gonçalves Seabra
   - Dr.º Ricardo Parreira
 ---
 
