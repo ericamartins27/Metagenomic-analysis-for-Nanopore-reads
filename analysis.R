@@ -1,5 +1,5 @@
 
-################### Instala e descarrega os pacotes exigidos #############
+################### Install and load required packages ###################
 ##########################################################################
 # Vetor com todos os pacotes exigidos
 packages <- c("ggplot2", "vegan", "tidyr", "readxl", "dplyr", "scales", "patchwork", "ggtext")
@@ -41,21 +41,20 @@ bubble$Genus <- factor(bubble$Genus, levels = rev(unique(ordem$Genus)))
 bubble$Sample <- factor(bubble$Sample, levels = c("W-C", "W11", "W12", "W13-4", "W13-7", "W15-5", "W15-8", "W3", "W4", "W7"))
 
 # Gráfico
-p <- ggplot(bubble,aes(x = Sample, y = Genus, size = Abundance, colour = Class)) +
-    geom_point(alpha = 1.0, stroke = 0.5) +
-    scale_size_continuous(
-      trans = "log10",
-      range = c(2,8),
-      name = "Abundância") +
-    labs(x = "Amostra", y = "Género viral", colour = "Grupo taxón") +
-    theme_classic(base_size = 14) +
-    theme(axis.text.x = element_text(angle = 45,hjust = 1),
-          axis.text.y = element_text(size = 8),
-          legend.position = "right",
-          legend.title = element_text(face = "bold"))
+p<-ggplot(bubble,aes(x = Sample, y = Genus, size = Abundance, colour = Class)) +
+  geom_point(alpha = 1.0, stroke = 0.5) +
+  scale_size_continuous(
+    trans = "log10",
+    range = c(2,8),
+    name = "Abundância") +
+  labs(x = "Amostra", y = "Género viral", colour = "Grupo táxon") +
+  theme_classic(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 8),
+        legend.position = "right",
+        legend.title = element_text(face = "bold"))
 p
 ggsave("Bubble_plot_virus.pdf", plot = p, width = 10, height = 8)
-
 
 ################### Indíces Simpson, Shannon e Richeness ##################
 ################### pelo programa EPI2ME ##################################
@@ -88,55 +87,76 @@ diversity_long$Sample <- factor(
   levels = c("W-C", "W11", "W12", "W13-4", "W13-7", "W15-5", "W15-8", "W3", "W4", "W7"))
 
 ## Richness
-p1<-ggplot(filter(diversity_long, Indices == "Richness"),
-       aes(x = Sample, y = Value, colour = BaseDados, group = BaseDados)) +
-  geom_point(size = 3.5) +
-  geom_line(linewidth = 1) +
-  scale_colour_manual(
-    values = c("Standard" = "#1B9E77", "PlusPF" = "#8E44AD", "Viral" = "#0072B2")) +
-  labs(x = "Amostra", y = "Richness", colour = "Base de dados") +
+p1 <- ggplot(
+  filter(diversity_long, Indices == "Richness"),
+  aes(x = Sample, y = Value, fill = BaseDados)) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7) +
+  scale_fill_manual(
+    values = c(
+      "Standard" = "#1B9E77",
+      "PlusPF" = "#8E44AD",
+      "Viral" = "#0072B2")) +
+  labs(x = "Amostra", y = "Richness", fill = "Base de dados") +
   theme_classic(base_size = 14) +
-  theme(axis.title = element_text(face = "bold"),
-        axis.text = element_text(face = "bold"),
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "top",
-        legend.title = element_text(face = "bold"))
+  theme(
+    axis.title = element_text(face = "bold"),
+    axis.text = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top",
+    legend.title = element_text(face = "bold"))
 p1
 ggsave("Richeness.pdf", plot = p1, width = 8, height = 6)
 
 ## Shannon
-p2<-ggplot(filter(diversity_long, Indices == "Shannon diversity index"),
-       aes(x = Sample, y = Value, colour = BaseDados, group = BaseDados)) +
-  geom_point(size = 3.5) +
-  geom_line(linewidth = 1) +
-  scale_colour_manual(
-    values = c("Standard" = "#1B9E77", "PlusPF" = "#8E44AD", "Viral" = "#0072B2")) +
-  labs(x = "Amostra", y = "Índice Shannon diversity", colour = "Base de dados") +
+p2 <- ggplot(
+  filter(diversity_long, Indices == "Shannon diversity index"),
+  aes(x = Sample, y = Value, fill = BaseDados)) +
+  geom_bar(
+    stat = "identity",
+    position = position_dodge(),
+    width = 0.8) +
+  scale_fill_manual(
+    values = c(
+      "Standard" = "#1B9E77",
+      "PlusPF" = "#8E44AD",
+      "Viral" = "#0072B2")) +
+  labs(x = "Amostra", y = "Índice Shannon", fill = "Base de dados") +
   theme_classic(base_size = 14) +
-  theme(axis.title = element_text(face = "bold"),
-        axis.text = element_text(face = "bold"),
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "top",
-        legend.title = element_text(face = "bold"))
+  theme(
+    axis.title = element_text(face = "bold"),
+    axis.text = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top",
+    legend.title = element_text(face = "bold"))
 p2
 ggsave("Shannon.pdf", plot = p2, width = 8, height = 6)
 
 ## Simpson
-p3<-ggplot(filter(diversity_long, Indices == "Simpson's index"),
-       aes(x = Sample, y = Value, colour = BaseDados, group = BaseDados)) +
-  geom_point(size = 3.5) +
-  geom_line(linewidth = 1) +
-  scale_colour_manual(
-    values = c("Standard" = "#1B9E77", "PlusPF" = "#8E44AD", "Viral" = "#0072B2")) +
-  labs(x = "Amostra", y = "Índice Simpson", colour = "Base de dados") +
+p3 <- ggplot(
+  filter(diversity_long, Indices == "Simpson's index"),
+  aes(x = Sample, y = Value, fill = BaseDados)) +
+  geom_bar(
+    stat = "identity",
+    position = position_dodge(),
+    width = 0.8) +
+  scale_fill_manual(
+    values = c(
+      "Standard" = "#1B9E77",
+      "PlusPF" = "#8E44AD",
+      "Viral" = "#0072B2")) +
+  labs(x = "Amostra", y = "Índice Simpson", fill = "Base de dados") +
   theme_classic(base_size = 14) +
-  theme(axis.title = element_text(face = "bold"),
-        axis.text = element_text(face = "bold"),
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "top",
-        legend.title = element_text(face = "bold"))
+  theme(
+    axis.title = element_text(face = "bold"),
+    axis.text = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top",
+    legend.title = element_text(face = "bold"))
 p3
 ggsave("Simpson.pdf", plot = p3, width = 8, height = 6)
+
 
 
 ################### Nº de espécies únicas de vírus e bactérias ##########
@@ -158,113 +178,93 @@ taxonomy |> filter(Program == "CZ.ID", known_pathogen == "Yes",
   count(Kingdom,name = "Unique_pathogenic_species")
 
 
-################### Nº de Bacteriófagos e Não Bacteriófagos ############# 
-################### identificados pelo programa CZ.ID ###################
-#########################################################################
-# Filtrar apenas CZ.ID e vírus
-viral <- filter(tax, Program == "CZ.ID", Kingdom == "Viruses")
-
-# Criar coluna Grupo
-viral$Grupo <- ifelse(viral$is_phage == "Yes", "Bacteriófagos", "Não bacteriófagos")
-
-# Contar espécies por amostra e grupo
-plot_data <- summarise(group_by(viral, Sample, Grupo), Especies = n_distinct(Species), .groups = "drop")
-
-# Passar para formato largo
-plot_data <- pivot_wider(plot_data, names_from = Grupo, values_from = Especies, values_fill = 0)
-
-# Tornar os vírus não bacteriófagos negativos
-plot_data$`Não bacteriófagos` <--plot_data$`Não bacteriófagos`
-
-# Gráfico
-p4<-ggplot(plot_data, aes(y = Sample)) +
-  geom_col(aes(x = `Não bacteriófagos`, fill = "Não bacteriófagos"), width = 0.55) +
-  geom_col(aes(x = Bacteriófagos, fill = "Bacteriófagos"), width = 0.55) +
-  geom_text(aes(x = `Não bacteriófagos`, label = abs(`Não bacteriófagos`)),
-    hjust = 1.15,
-    size = 4,
-    fontface = "bold") +
-  geom_text(aes(x = Bacteriófagos, label = Bacteriófagos),
-    hjust = -0.15,
-    size = 4,
-    fontface = "bold") +
-  scale_fill_manual(breaks = c("Não bacteriófagos", "Bacteriófagos"),
-    values = c("Não bacteriófagos" = "#A6CEE3", "Bacteriófagos" = "#1F78B4"), name = "") +
-  scale_x_continuous(labels = abs) +
-  labs(x = "Número de espécies virais", y = "Amostra") +
-  theme_classic(base_size = 14) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
-    axis.title = element_text(face = "bold"),
-    axis.text = element_text(face = "bold"),
-    legend.position = "top",
-    legend.text = element_text(size = 12))
-p4
-ggsave("viruses_czid.pdf", plot = p4, width = 8, height = 6)
-
-
 ################### Presença de bacteriófagos nas amostras ################
 ################### identificados pelo programa CZ.ID #####################
 ###########################################################################
-
+# Filtrar apenas vírus do CZ.ID
 viral <- filter(tax, Program == "CZ.ID", Kingdom == "Viruses")
 
-# Filtrar apenas bacteriófagos
-phage_matrix <- filter(viral, is_phage == "Yes")
+# Remover entradas que não são géneros virais
+# Nomes que não correspondem a géneros de bacteriófagos
+excluir <- c(
+  "Acinetobacter",
+  "Ackermannviridae",
+  "Aeromonas",
+  "Bacteriophage",
+  "Bacteroides",
+  "Caudoviricetes",
+  "Clostridium",
+  "Elizabethkingia",
+  "Enterococcus",
+  "Flavobacterium",
+  "Herelleviridae",
+  "Inoviridae",
+  "Klebsiella",
+  "Lactococcus",
+  "Microviridae",
+  "Microvirus",
+  "Paenibacillus",
+  "Phage",
+  "Phocaeicola",
+  "Prevotella",
+  "Providencia",
+  "Pseudaeromonas",
+  "Ralstonia",
+  "Rattus",
+  "Staphylococcus",
+  "Streptococcus",
+  "Tortoise",
+  "uncultured",
+  "Yersinia")
 
-# Manter apenas Species e Sample únicos
+# Filtrar apenas os géneros de bacteriófagos
+phage_matrix <- filter(viral, is_phage == "Yes", is.na(match(Genus, excluir)))
+
+# Manter apenas Genus e Sample únicos
 phage_matrix <- distinct(phage_matrix, Genus, Sample)
 
 # Criar coluna de presença
 phage_matrix$Presente <- 1
 
 # Completar combinações ausentes
-phage_matrix <- complete(phage_matrix, Genus, Sample, fill = list(Presente = 0))
+phage_matrix <- complete(
+  phage_matrix,
+  Genus,
+  Sample,
+  fill = list(Presente = 0))
 
 # Ordenar alfabeticamente
 genus_order <- sort(unique(phage_matrix$Genus))
 
-# Dividir ao meio
-metade <- ceiling(length(genus_order) / 2)
+phage_matrix$Genus <- factor(
+  phage_matrix$Genus,
+  levels = rev(genus_order))
 
-# Primeira metade
-phage_matrix1 <- phage_matrix[
-  !is.na(match(phage_matrix$Genus, genus_order[1:metade])),]
-
-# Segunda metade
-phage_matrix2 <- phage_matrix[
-  !is.na(match(phage_matrix$Genus,
-               genus_order[(metade + 1):length(genus_order)])),]
-
-# Manter a ordem das espécies
-phage_matrix1$Genus <- factor(phage_matrix1$Genus,
-  levels = rev(genus_order[1:metade]))
-
-phage_matrix2$Genus <- factor(phage_matrix2$Genus,
-  levels = rev(genus_order[(metade + 1):length(genus_order)]))
-
+# Tema
 tema_heatmap <- theme_classic(base_size = 14) +
-  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+  theme(
     axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"),
-    axis.text.y = element_text(face = "italic", size = 7),
+    axis.text.y = element_text(face = "italic", size = 8),
+    axis.title = element_text(face = "bold"),
     legend.position = "top")
 
-fig2A <- ggplot(phage_matrix1, aes(x = Sample, y = Genus, fill = factor(Presente))) +
+# Gráfico
+fig2 <- ggplot(
+  phage_matrix,
+  aes(x = Sample, y = Genus, fill = factor(Presente))) +
   geom_tile(colour = "grey80", linewidth = 0.3) +
-  scale_fill_manual(values = c("0" = "white", "1" = "#1F78B4"), labels = c("Ausente", "Presente"), name = "") +
-  labs( x = "Amostra", y = "Bacteriófago") +
+  scale_fill_manual(
+    values = c("0" = "white", "1" = "#1F78B4"),
+    labels = c("Ausente", "Presente"),
+    name = "") +
+  labs(
+    x = "Amostra",
+    y = "Género de bacteriófago") +
   tema_heatmap
-fig2A
-ggsave("presenca_bacteriofagos_czid1.pdf", plot = fig2A, width = 8, height = 6)
 
-fig2B <- ggplot(phage_matrix2, aes(x = Sample, y = Genus, fill = factor(Presente))) +
-  geom_tile(colour = "grey80", linewidth = 0.3) +
-  scale_fill_manual(values = c("0" = "white", "1" = "#1F78B4"),labels = c("Ausente", "Presente"), name = "") +
-  labs(x = "Amostra", y = "Bacteriófago") +
-  tema_heatmap
-fig2B
-ggsave("presenca_bacteriofagos_czid2.pdf", plot = fig2B, width = 8, height = 6)
+fig2
 
+ggsave("presenca_bacteriofagos_czid.pdf", plot = fig2, width = 8, height = 9)
 
 ###################### Bactérias patógenicos identificadas ###############
 ###################### pelo programa CZ.ID ###############################
@@ -313,13 +313,12 @@ heat <- heat |>arrange(Kingdom, Genus)
 heat$Genus <- factor(heat$Genus,levels = rev(unique(heat$Genus)))
 
 # Gráfico
-# Gráfico
 p6<-ggplot(heat,aes(x = Sample, y = Genus, fill = Kingdom)) +
   geom_tile(colour = "white", linewidth = 0.5) +
   facet_grid(Kingdom ~ .,scales = "free_y", space = "free_y") +
   scale_fill_manual(values = c("Viruses" = "#0072B2", "Eukaryota" = "#8E44AD"),
     labels = c("Viruses" = "Vírus", "Eukaryota" = "Eucariotas"), name = "Grupo taxonómico") +
-  labs(x = "Amostra", y = "Género patogénico") +
+  labs(x = "Amostra", y = "Táxon patogénico") +
   theme_classic(base_size = 14) +
   theme(strip.background = element_blank(),
     strip.text.y = element_blank(),
