@@ -4,9 +4,9 @@
 ## 👤 Author 
   - Érica Martins             
 ## 👥 Advisors
-  - Prof.º Francisco Pina Martins
-  - Dr.ª Sofia Gonçalves Seabra
-  - Dr.º Ricardo Parreira
+  - Francisco Pina Martins
+  - Sofia Gonçalves Seabra
+  - Ricardo Parreira
 ---
 
 
