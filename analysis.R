@@ -331,3 +331,83 @@ p6<-ggplot(heat,aes(x = Sample, y = Genus, fill = Kingdom)) +
     guides(fill = guide_legend(title.position = "top", nrow = 1, byrow = TRUE)))
 p6
 ggsave("eucariotas_virus_patogenicos.pdf", plot = p6, width = 8, height = 6)
+
+
+################# Teste Não Paramétrico Wilcoxon ###################
+####################################################################
+# Número de espécies por amostra e plataforma
+species_por_amostra <- tax %>%
+  filter(
+    !is.na(Species),
+    Species != "",
+    Species != "Unknown"
+  )%>%
+  group_by(Sample, Program) %>%
+  summarise(
+    Nspecies = n_distinct(Species),
+    .groups = "drop")
+
+species_por_amostra
+
+# Comparação entre EPI2ME e CZ.ID
+comparacao <- species_por_amostra %>%
+  pivot_wider(names_from = Program, values_from = Nspecies)
+
+comparacao
+
+# Remove amostras que não têm resultados
+comparacao_wilcoxon <- comparacao %>%
+  filter(!is.na(CZ.ID), !is.na(EPI2ME))
+
+# Teste de Wilcoxon 
+wilcox.test(comparacao_wilcoxon$CZ.ID, comparacao_wilcoxon$EPI2ME, paired = TRUE)
+
+# Para Bactérias
+bacteria_por_amostra <- tax %>%
+  filter(
+    Kingdom == "Bacteria",
+    !is.na(Species),
+    Species != "",
+    Species != "Unknown"
+  ) %>%
+  group_by(Sample, Program) %>%
+  summarise(
+    Nspecies = n_distinct(Species),
+    .groups = "drop")
+
+bacteria_comparacao <- bacteria_por_amostra %>%
+  tidyr::pivot_wider(names_from = Program, values_from = Nspecies)
+
+bacteria_comparacao
+
+bacteria_wilcoxon <- bacteria_comparacao %>%
+  filter(!is.na(CZ.ID), !is.na(EPI2ME))
+
+wilcox.test(bacteria_wilcoxon$CZ.ID, bacteria_wilcoxon$EPI2ME, paired = TRUE)
+
+# Para Vírus
+virus_por_amostra <- tax %>%
+  filter(
+    Kingdom == "Viruses",
+    !is.na(Species),
+    Species != "",
+    Species != "Unknown"
+  ) %>%
+  group_by(Sample, Program) %>%
+  summarise(
+    Nspecies = n_distinct(Species),
+    .groups = "drop")
+
+virus_comparacao <- virus_por_amostra %>%
+  tidyr::pivot_wider(names_from = Program, values_from = Nspecies)
+
+virus_comparacao
+
+virus_wilcoxon <- virus_comparacao %>%
+  filter(!is.na(CZ.ID), !is.na(EPI2ME))
+
+wilcox.test(virus_wilcoxon$CZ.ID, virus_wilcoxon$EPI2ME, paired = TRUE)
+
+
+
+
