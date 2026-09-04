@@ -71,8 +71,8 @@ The human reference genome for host read removal was *Homo sapiens GRCh38.P14*, 
 ```
 5. Each time the workflow is executed with a diferent database, it is necessary to transfer the following documents from the output: `wf-metagenomics-report.html`, `abundance_table_species.tsv` and `*.fq.gz` from the folder `unclassified`, so that the files are not substitute by the next reports.  
 ```sh bash
-mv output/wf-metagenomics-report.html epi2me/reports/_viral.html
-mv output/abundance_table_species.tsv epi2me/abundance_table_viral.tsv
+mv output/wf-metagenomics-report.html epi2me/reports/viral.html
+mv output/abundance_table_species.tsv epi2me/abundance/abundance_table_viral.tsv
 mv output/unclassified/*.fq.gz epi2me/unclassified/unclassified_viral
 ```
 6. Run the taxonomy.py script with Python:
